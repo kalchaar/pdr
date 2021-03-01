@@ -1,4 +1,4 @@
-// Keenan Alchaar | ka5nt | 02/23/21 | List.cpp
+// Keenan Alchaar | ka5nt | 02/26/21 | List.cpp
 
 #include <iostream>
 #include "List.h"
@@ -35,7 +35,9 @@ List::List(const List& source) {
 
 // Destructor
 List::~List() {
-
+  makeEmpty();
+  delete head;
+  delete tail;
 }
 
 // Copy assignment operator
@@ -59,11 +61,13 @@ List& List::operator=(const List& source) {
 }
 
 bool List::isEmpty() const {
-
+  return count == 0;
 }
 
 void List::makeEmpty() {
-
+  while(!isEmpty()) {
+    remove(last().retrieve()); // keep removing from tail until list is empty
+  }
 }
 
 ListItr List::first() {
@@ -71,15 +75,31 @@ ListItr List::first() {
 }
 
 ListItr List::last() {
-
+  return ListItr(tail->previous);
 }
 
 void List::insertAfter(int x, ListItr position) {
-
+  ListNode* newNode = new ListNode();
+  newNode->value = x;
+  ListNode* left = position.current; // becomes left of new node
+  ListNode* right = position.current->next;
+  newNode->previous = left; // redraw pointers
+  newNode->next = right;
+  left->next = newNode;
+  right->previous = newNode;
+  count++;
 }
 
 void List::insertBefore(int x, ListItr position) {
-
+  ListNode* newNode = new ListNode();
+  newNode->value = x;
+  ListNode* left = position.current->previous;
+  ListNode* right = position.current; // becomes right of new node
+  newNode->previous = left; // redraw pointers
+  newNode->next = right;
+  left->next = newNode;
+  right->previous = newNode;
+  count++;
 }
 
 void List::insertAtTail(int x) {
@@ -94,11 +114,24 @@ void List::insertAtTail(int x) {
 }
 
 ListItr List::find(int x) {
-
+  ListItr itr(head->next); // start at dummy head
+  for (int k = 0; k < count; k++) { // search and return if found
+    if (itr.retrieve() == x) {
+      return itr;
+    }
+    itr.moveForward(); // else continue
+  }
+  return ListItr(tail); // return tail if not found
 }
 
 void List::remove(int x) {
-
+  ListItr itr = find(x);
+  if (!itr.isPastEnd()) {
+    itr.current->previous->next = itr.current->next; // node left of deletion now points to node right of deletion
+    itr.current->next->previous = itr.current->previous; // node right of deletion now points to node left of deletion
+    delete itr.current;
+    count--;
+  }
 }
 
 int List::size() const {
@@ -107,10 +140,18 @@ int List::size() const {
 
 void printList(List& source, bool forward) {
   if (forward) {
-    ListItr i = source.first();
-    while (!i.isPastEnd()) {
-      cout << i.retrieve() << " ";
-      i.moveForward();
+    ListItr itr = source.first();
+    while (!itr.isPastEnd()) {
+      cout << itr.retrieve() << " ";
+      itr.moveForward();
+    }
+    cout << endl;
+    return; // break out of function if already printed forward
+  } else {
+    ListItr itr = source.last();
+    while(!itr.isPastBeginning()) {
+      cout << itr.retrieve() << " ";
+      itr.moveBackward();
     }
     cout << endl;
   }
