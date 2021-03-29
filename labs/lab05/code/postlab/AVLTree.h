@@ -1,3 +1,5 @@
+// Keenan Alchaar | ka5nt | 03/26/2021 | AVLTree.h
+
 #ifndef AVL_H
 #define AVL_H
 
@@ -64,6 +66,12 @@ private:
     void printTree(AVLNode* root, Trunk* prev, bool isRight);
 
     // Any other methods you need...
+    // ADDITIONAL METHODS
+    void insert(AVLNode*& n, const string& x);
+    string pathTo(AVLNode* n, const string& x) const;
+    bool find(AVLNode* n, const string& x) const;
+    int numNodes(AVLNode* n) const;
+    // ADDITIONAL METHODS
 };
 
 // max returns the greater of two integers.

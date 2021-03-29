@@ -1,3 +1,5 @@
+// Keenan Alchaar | ka5nt | 03/23/2021 | BinarySearchTree.cpp
+
 #include "BinaryNode.h"
 #include "BinarySearchTree.h"
 #include <iostream>
@@ -15,7 +17,20 @@ BinarySearchTree::~BinarySearchTree() {
 
 // insert finds a position for x in the tree and places it there.
 void BinarySearchTree::insert(const string& x) {
-    // YOUR IMPLEMENTATION GOES HERE
+  insert(root, x);
+}
+
+void BinarySearchTree::insert(BinaryNode*& n, const string& x) {
+    if (n == NULL) {
+      n = new BinaryNode();
+      n->value = x;
+    } else if (x < n->value) {
+      insert(n->left, x);
+    } else if (x > n->value) {
+      insert(n->right, x);
+    } else {
+      return; 
+    }
 }
 
 // remove finds x's position in the tree and removes it.
@@ -74,16 +89,52 @@ BinaryNode* BinarySearchTree::remove(BinaryNode*& n, const string& x) {
 // took to get there.
 string BinarySearchTree::pathTo(const string& x) const {
     // YOUR IMPLEMENTATION GOES HERE
+  return pathTo(root, x);
+}
+
+string BinarySearchTree::pathTo(BinaryNode* n, const string& x) const {
+  if (n == NULL || !find(root, x)) {
+    return "";
+  }
+  if (x == n->value) {
+    return "" + n->value;
+  } else if (x < n->value) {
+    return n->value + " " + pathTo(n->left, x);
+  } else if (x > n->value) {
+    return n->value + " " + pathTo(n->right, x);
+  }
 }
 
 // find determines whether or not x exists in the tree.
 bool BinarySearchTree::find(const string& x) const {
     // YOUR IMPLEMENTATION GOES HERE
+  return find(root, x);
+}
+
+bool BinarySearchTree::find(BinaryNode* n, const string& x) const {
+  if (n == NULL) {
+    return false;
+  } else if (x < n->value) {
+    return find(n->left, x);
+  } else if (x > n->value) {
+    return find(n->right, x);
+  } else {
+    return true;
+  } 
 }
 
 // numNodes returns the total number of nodes in the tree.
 int BinarySearchTree::numNodes() const {
     // YOUR IMPLEMENTATION GOES HERE
+  return numNodes(root);
+}
+
+int BinarySearchTree::numNodes(BinaryNode* n) const {
+  if (n == NULL) {
+    return 0;
+  } else {
+    return 1 + numNodes(n->left) + numNodes(n->right);
+  }
 }
 
 // min finds the string with the smallest value in a subtree.

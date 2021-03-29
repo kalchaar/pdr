@@ -1,4 +1,4 @@
-// Add your header information here
+// Keenan Alchaar | ka5nt | 03/23/2021 | TreeCalc.h
 // TreeCalc.h: Tree Calculator class definition
 // CS 2150: Lab 5
 // You must submit ALL code to make your project build correctly

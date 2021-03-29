@@ -1,3 +1,5 @@
+// Keenan Alchaar | ka5nt | 03/26/2021 | AVLNode.h (UNMODIFIED)
+
 #ifndef AVLNODE_H
 #define AVLNODE_H
 #include <string>

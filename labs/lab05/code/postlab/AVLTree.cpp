@@ -1,3 +1,5 @@
+// Keenan Alchaar | ka5nt | 03/26/2021 | AVLTree.cpp
+
 #include "AVLNode.h"
 #include "AVLTree.h"
 #include <iostream>
@@ -17,6 +19,20 @@ AVLTree::~AVLTree() {
 // as necessary.
 void AVLTree::insert(const string& x) {
     // YOUR IMPLEMENTATION GOES HERE
+  insert(root, x);
+}
+
+void AVLTree::insert(AVLNode*& n, const string& x) {
+  if (n == NULL) {
+    n = new AVLNode();
+    n->value = x;
+  } else if (x < n->value) {
+    insert(n->left, x);
+  } else if (x > n->value) {
+    insert(n->right, x);
+  }
+  n->height = 1 + max(height(n->left), height(n->right));
+  balance(n);
 }
 
 // remove finds x's position in the tree and removes it, rebalancing as
@@ -29,32 +45,102 @@ void AVLTree::remove(const string& x) {
 // took to get there.
 string AVLTree::pathTo(const string& x) const {
     // YOUR IMPLEMENTATION GOES HERE
+  return pathTo(root, x);
 }
+
+string AVLTree::pathTo(AVLNode* n, const string& x) const {
+  if (n == NULL || !find(root, x)) {
+    return "";
+  }
+  if (x == n->value) {
+    return "" + n->value;
+  } else if (x < n->value) {
+    return n->value + " " + pathTo(n->left, x);
+  } else if (x > n->value) {
+    return n->value + " " + pathTo(n->right, x);
+  }
+}
+
 
 // find determines whether or not x exists in the tree.
 bool AVLTree::find(const string& x) const {
     // YOUR IMPLEMENTATION GOES HERE
+  return find(root, x);
+}
+
+bool AVLTree::find(AVLNode* n, const string& x) const {
+  if (n == NULL) {
+    return false;
+  } else if (x < n->value) {
+    return find(n->left, x);
+  } else if (x > n->value) {
+    return find(n->right, x);
+  } else {
+    return true;
+  }
 }
 
 // numNodes returns the total number of nodes in the tree.
 int AVLTree::numNodes() const {
     // YOUR IMPLEMENTATION GOES HERE
+  return numNodes(root);
+}
+
+int AVLTree::numNodes(AVLNode* n) const {
+  if (n == NULL) {
+    return 0;
+  } else {
+    return 1 + numNodes(n->left) + numNodes(n->right);
+  }
 }
 
 // balance makes sure that the subtree with root n maintains the AVL tree
 // property, namely that the balance factor of n is either -1, 0, or 1.
 void AVLTree::balance(AVLNode*& n) {
     // YOUR IMPLEMENTATION GOES HERE
+  int balanceFactor = height(n->right) - height(n->left);
+
+  if (balanceFactor == 2) { // LEFT OR LEFT-RIGHT
+    if (height(n->right->right) - height(n->right->left) < 0) {
+      n->right = rotateRight(n->right);
+    }
+    n = rotateLeft(n);
+  } else if (balanceFactor == -2) { // RIGHT OR RIGHT-LEFT
+    if (height(n->left->right) - height(n->left->left) > 0) {
+      n->left = rotateLeft(n->left);
+    }
+    n = rotateRight(n);
+  }
 }
 
 // rotateLeft performs a single rotation on node n with its right child.
 AVLNode* AVLTree::rotateLeft(AVLNode*& n) {
     // YOUR IMPLEMENTATION GOES HERE
+  AVLNode* unbalancedR = n->right; // nodes of interest
+  AVLNode* unbalancedRL = unbalancedR->left;
+
+  unbalancedR->left = n; // redefine pointers to rotate
+  n->right = unbalancedRL;
+
+  n->height = 1 + max(height(n->left), height(n->right)); // update heights
+  unbalancedR->height = 1 + max(height(unbalancedR->left), height(unbalancedR->right));
+
+  return unbalancedR; 
 }
 
 // rotateRight performs a single rotation on node n with its left child.
 AVLNode* AVLTree::rotateRight(AVLNode*& n) {
     // YOUR IMPLEMENTATION GOES HERE
+  AVLNode* unbalancedL = n->left;
+  AVLNode* unbalancedLR = unbalancedL->right;
+
+  unbalancedL->right = n;
+  n->left = unbalancedLR;
+
+  n->height = 1 + max(height(n->left), height(n->right));
+  unbalancedL->height = 1 + max(height(unbalancedL->left), height(unbalancedL->right));
+
+  return unbalancedL;
 }
 
 // private helper for remove to allow recursion over different nodes.

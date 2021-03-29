@@ -1,3 +1,5 @@
+// Keenan Alchaar | ka5nt | 03/26/2021 | AVLNode.cpp (UNMODIFIED) 
+
 #include "AVLNode.h"
 #include <string>
 using namespace std;

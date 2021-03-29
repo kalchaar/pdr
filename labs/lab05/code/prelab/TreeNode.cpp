@@ -1,4 +1,4 @@
-// Insert your header information here
+// Keenan Alchaar | ka5nt | 03/23/2021 | TreeNode.cpp
 // TreeNode.cpp:  Tree Node method implementations
 // CS 2150: Lab 5
 

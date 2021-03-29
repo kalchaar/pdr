@@ -1,3 +1,5 @@
+// Keenan Alchaar | ka5nt | 03/23/2021 | BinarySearchTree.h
+
 #ifndef BST_H
 #define BST_H
 
@@ -41,8 +43,14 @@ private:
     // Declare a root node
     BinaryNode* root;
 
-    // private helper for remove to allow recursion over different nodes. returns
-    // a BinaryNode* that is assigned to the original node.
+    // ADDITIONAL METHODS
+    void insert(BinaryNode*& n, const string& x);
+    bool find(BinaryNode* n, const string& x) const;
+    int numNodes(BinaryNode* n) const;
+    string pathTo(BinaryNode* n, const string &x) const;
+    // ADDITIONAL METHODS
+    
+    // private helper for remove to allow recursion over different nodes. returns   // a BinaryNode* that is assigned to the original node.
     BinaryNode* remove(BinaryNode*& n, const string& x);
     // min finds the string with the smallest value in a subtree.
     string min(BinaryNode* node) const;
