@@ -1,0 +1,20 @@
+C005  00  jmp (to program start)
+0001  01  int k (index variable)
+0014  02  int size
+3000  03  load it
+0001  04  one
+3000  05  load 00 (jmp statement)
+1800  06  print
+3002  07  load size  // BEGIN print loop // 
+6001  08  sub k
+D013  09  jmpe (when all lines are done printing, halt)
+3003  0A  load load it
+5001  0B  add k
+400D  0C  store load a[k]
+300D  0D  load a[k]
+1800  0E  print a[k]
+3001  0F  load k
+5004  10  add one
+4001  11  store k
+C007  12  jmp (to BEGIN print loop) // END print loop //
+0000  13  halt instruction

@@ -1,0 +1,65 @@
+C009  00  start
+0000  01  int index (i)
+0000  02  int size
+0000  03  int input
+0000  04  zero
+0001  05  one
+4000  06  store it
+0040  07  int a[] (location)
+3000  08  load it
+1000  09  input size
+4002  0A  store size
+3004  0B  load zero
+4001  0C  store zero in i
+3002  0D  load size // BEGIN array entry loop //
+6001  0E  sub i
+E01D  0F  jmpl
+D01D  10  jmpe
+1000  11  input array entry
+4003  12  store input
+3006  13  load store it
+5007  14  add a
+5001  15  add i
+4018  16  store doit
+3003  17  load input
+b000  18  store input
+3001  19  load i
+5005  1A  add one
+4001  1B  store i
+C00D  1C  jmp // END array entry loop //
+3004  1D  load zero
+4001  1E  store zero in i
+3002  1F  load size // BEGIN print forward loop //
+6001  20  sub i
+E02D  21  jmpl
+D02D  22  jmpe
+3008  23  load load it
+5007  24  add a
+5001  25  add i
+4027  26  store load a[i]
+b000  27  load a[i]
+1800  28  print a[i]
+3001  29  load i
+5005  2A  add one
+4001  2B  store i
+C01F  2C  jmp // END print forwaard loop //
+3004  2D  load zero
+4001  2E  store zero in i
+3002  2F  load size // BEGIN print backward loop //
+6001  30  sub i
+E03F  31  jmpl
+D03F  32  jmpe
+3008  33  load load it
+5007  34  add a
+5002  35  add size
+6001  36  sub i
+6005  37  sub one
+4039  38  store load a[i]
+b000  39  load a[i]
+1800  3A  print a[i]
+3001  3B  load i
+5005  3C  add one
+4001  3D  store i
+C02F  3E  jmp // END print backward loop //
+0000  3F  halt
+0000  40  int a[]

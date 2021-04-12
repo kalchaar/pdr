@@ -1,0 +1,112 @@
+C010  00  start
+0000  01  int index (I)
+0009  02  int index (J)
+000A  03  int size = MAX
+0000  04  zero
+0001  05  one
+4000  06  store it
+3000  07  load it
+006A  08  int a[] (location)
+0000  09  int input
+0000  0A  int index (K)
+0009  0B  int size - 1
+0000  0C  int temp (A[j])
+0000  0D  int temp (A[j-1])
+0000  0E  //
+0000  0F  //
+3003  10  load size // BEGIN array entry (k) loop //
+600A  11  sub k
+E020  12  jmpl
+D020  13  jmpe
+1000  14  input array entry
+4009  15  store input
+3006  16  load store it
+5008  17  add a
+500A  18  add k
+401B  19  store do it
+3009  1A  load input
+b000  1B  store input
+300A  1C  load k
+5005  1D  add one
+400A  1E  store k
+C010  1F  jmp // END array entry (k) loop //
+3003  20  load size // BEGIN i loop //
+6001  21  sub i
+E054  22  jmpl to printing
+D054  23  jmpe to printing
+3002  24  load j // BEGIN j loop //
+6001  25  sub i
+E04E  26  jmpl
+D04E  27  jmpe
+3007  28  load load it
+5008  29  add a
+5002  2A  add j
+6005  2B  sub one
+402D  2C  store do it
+b000  2D  load a[j-1]
+400D  2E  store a[j-1] temp
+3007  2F  load load it
+5008  30  add a
+5002  31  add j
+4033  32  store do it
+b000  33  load a[j]
+400C  34  store a[j] temp
+300D  35  load a[j-1]
+600C  36  sub a[j]
+E04A  37  jmpl jump past if body
+D04A  38  jmpe jump past if body
+b000  39  
+b000  3A  
+b000  3B  
+b000  3C  
+3006  3D  load store it // BEGIN IF STATEMENT BODY //
+5008  3E  add a
+5002  3F  add j
+4042  40  store doit
+300D  41  load a[j-1]
+b000  42  store into a[j]
+3006  43  load store it
+5008  44  add a
+5002  45  add j
+6005  46  sub one
+4049  47  store doit
+300C  48  load a[j]
+b000  49  store into a[j-1] // END IF STATEMENT BODY //
+3002  4A  load j
+6005  4B  sub one
+4002  4C  store j
+C024  4D  jump to BEGIN j loop // END j loop
+3001  4E  load i
+5005  4F  add one
+4001  50  store i
+300B  51  load int size - 1
+4002  52  store j
+C020  53  jump to BEGIN i loop // END i loop
+3004  54  load zero
+400A  55  store k
+3003  56  load size // BEGIN print forward loop
+600A  57  sub k
+E064  58  jmpl
+D064  59  jmpe
+3007  5A  load load it
+5008  5B  add a
+500A  5C  add k
+405E  5D  store load a[k]
+b000  5E  load a[k]
+1800  5F  print a[k]
+300A  60  load k
+5005  61  add one
+400A  62  store k
+C056  63  jmp // END print forward loop //
+0000  64
+0000  65
+0000  66
+0000  67
+0000  68
+0000  69
+0000  6A int a[]
+0000  6B
+0000  6C
+0000  6D
+0000  6E
+0000  6F

@@ -1,0 +1,18 @@
+300F  00  load size
+600E  01  sub k
+E011  02  jmpl
+D011  03  jmpe
+3010  04  load load it
+500E  05  add k
+4007  06  store load a[k]
+3007  07  load a[k]
+1800  08  print a[k]
+300E  09  load k
+500D  0A  add one
+400E  0B  store k
+C000  0C  jmp
+0001  0D  one
+0000  0E  int k
+0012  0F  int size = 11 (hex) + 1
+3000  10  load it
+0000  11  halt instruction
