@@ -1,4 +1,4 @@
-# Keenan Alchaar | ka5nt | 04/16/2021 | Makefile (postlab 08)
+# Keenan Alchaar | ka5nt | 04/13/2021 | Makefile (inlab 08)
 
 CXX = clang++
 
@@ -8,7 +8,7 @@ AS = nasm
 
 ASFLAGS = -f elf64 -g
 
-OBJECTS = linearSearch.o testLinearSearch.o
+OBJECTS = mergeSort.o testMergeSort.o
 
 a.out: $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $(OBJECTS)

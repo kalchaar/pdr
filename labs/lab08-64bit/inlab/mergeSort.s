@@ -1,29 +1,54 @@
 ; University of Virginia
 ; CS 2150 In-Lab 8
 ; Spring 2018
-; mergeSort.s	
+; mergeSort.s
 
+	;; Keenan Alchaar | ka5nt | 04/13/2021 | mergeSort.s (only mergeSort)
+	
 	global mergeSort
 	global merge
 
 	section .text
 
 
-; Parameter 1 is a pointer to the int array 
-; Parameter 2 is the left index in the array 
-; Parameter 3 is the right index in the array
+; Parameter 1 is a pointer to the int array  (rdi) (A[])
+; Parameter 2 is the left index in the array (rsi) (start)
+; Parameter 3 is the right index in the array (rdx) (end)
 ; Return type is void 
 mergeSort:
-
 	; Implement mergeSort here
+	cmp	rsi, rdx	; if (start >= end)
+	jge	mergeSort_end
+	
+	push	rsi		; push START
+	push	rdx 		; push END
+
+	add	rdx, rsi 	; END + START
+	shr	rdx, 1 		; divide by 2
+	push 	rdx 		; push MIDDLE
+	call	mergeSort
+
+	pop	rsi 		; pop MIDDLE into rsi (arg2)
+	inc	rsi		; MIDDLE + 1
+	pop	rdx 		; pop END into rdx (arg3)
+	push	rsi 		; push MIDDLE + 1
+	push 	rdx 		; push END
+	call 	mergeSort
+
+	pop 	rcx 		; pop END into rcx (arg4)
+	pop 	rdx		; pop MIDDLE + 1 into rdx (arg3)
+	dec 	rdx 		; subtract 1 to obtain MIDDLE
+	pop 	rsi 		; pop START into rsi (arg2)
+	call 	merge
+	
+	
+mergeSort_end:
 	
 
-
-
-; Parameter 1 is a pointer to the int array 
-; Parameter 2 is the left index in the array
-; Parameter 3 is the middle index in the array 
-; Parameter 4 is the right index in the array
+; Parameter 1 is a pointer to the int array (rdi)
+; Parameter 2 is the left index in the array (rsi)
+; Parameter 3 is the middle index in the array (rdx)
+; Parameter 4 is the right index in the array (rcx)
 ; Return type is void 
 merge:
 	; Save callee-save registers
