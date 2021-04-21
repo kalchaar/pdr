@@ -1,3 +1,5 @@
+// Keenan Alchaar | ka5nt | 04/20/2021 | linkedlist.c
+
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -22,9 +24,43 @@ int isEmpty(const char* input);
 int main(){
 
 	// TODO: INSTANTIATE YOUR LINKED LIST HERE.
+  struct list {
+    struct list_item* head;
+    struct list_item* tail;
+    unsigned int length;
+  };
 
+  struct list_item {
+    struct list_item* prev;
+    struct list_item* next;
+    int datum;
+  };
 
+  struct list* linked_list = malloc(sizeof(struct list));
+  if (linked_list == NULL) {
+    return 1;
+  }
 
+  struct list_item* head = malloc(sizeof(struct list_item));
+  if (head == NULL) {
+    return 1;
+  }
+
+  struct list_item* tail = malloc(sizeof(struct list_item));
+  if (tail == NULL) {
+    return 1;
+  }
+
+  linked_list->head = head;
+  linked_list->tail = tail;
+
+  head->prev = NULL;
+  head->next = tail;
+
+  tail->prev = head;
+  tail->next = NULL;
+
+  
 
 	//----END----
 	
@@ -34,24 +70,48 @@ int main(){
 
 	do {
 		option = readInput(&val);
-		struct list_item* node;
+		struct list_item* node = malloc(sizeof(struct list_item));
+		if (node == NULL) {
+		  return 1;
+		}
 
 		switch(option){
 			case PUSH_FRONT:				// push onto front of list
 				// TODO: Insert code to push val onto front of linked list here.
-
+			  node->datum = val;
+			  struct list_item* right = head->next;
+			  node->next = right;
+			  node->prev = head;
+			  head->next = node;
+			  right->prev = node;
+			  linked_list->length++;
+			  
 
 				//----END----
 				break;
 			case PUSH_BACK: 				// push onto back of list
-				// TODO: Insert code to push val onto back of linked list here.
-				
+				// TODO: Insert code to push val onto back of linked list
+			  node->datum = val;
+			  struct list_item* left = tail->prev;
+			  node->prev = left;
+			  node->next = tail;
+			  tail->prev = node;
+			  left->next = node;
+			  linked_list->length++;
 
 				//----END----
 				break;
 			case POP_FRONT: 				// remove from front of list
 				// TODO: Insert code to remove from front of linked list here.
 				// If list is empty, do nothing.
+			  if (linked_list->length == 0) {
+			    break;
+			  }
+			  struct list_item* tempH = head->next->next;
+			  free(head->next);
+			  head->next = tempH;
+			  tempH->prev = head;
+			  linked_list->length--;
 
 
 				//----END----
@@ -59,7 +119,14 @@ int main(){
 			case POP_BACK:					// remove from back of list
 				// TODO: Insert code to remove from back of linked list here.
 				// If list is empty, do nothing.
-				
+			  if (linked_list->length == 0) {
+			    break;
+			  }
+			  struct list_item* tempT = tail->prev->prev;
+			  free(tail->prev);
+			  tail->prev = tempT;
+			  tempT->next = tail;
+			  linked_list->length--;
 
 				//----END----
 				break;
@@ -68,7 +135,12 @@ int main(){
 				// Simply print each element separated by a space as shown below:
 				// Elements: 1 2 3 4 5 
 				printf("Elements: ");
-
+				struct list_item* n = head->next;
+				while (n != tail) {
+				  printf("%d ", n->datum);
+				  n = n->next;
+				}
+				printf("\n");
 
 				//----END----
 				break;
@@ -85,7 +157,21 @@ int main(){
 	} while(option != QUIT);
 
 	// TODO: free any memory used by your linked list here
-	
+	if (linked_list->length > 0) {
+	  struct list_item* first = head->next; // starts at first element if list not empty
+	  free(first->prev); // deletes head first
+	  while (linked_list->length != 0) {
+	    first = first->next;
+	    free(first->prev);
+	    linked_list->length--;
+	  }
+	  free(tail);
+	  free(linked_list);
+	} else {
+	  free(head);
+	  free(tail);
+	  free(linked_list);
+	}
 
 	//----END----
 
