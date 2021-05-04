@@ -53,6 +53,7 @@ int main (int argc, char** argv) {
         string bits;
         // read in the next set of 1's and 0's
         file >> bits;
+	cout << bits << endl;
         // check for the separator
         if (bits[0] == '-') {
             break;
